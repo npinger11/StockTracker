@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PortfolioView: View {
     @EnvironmentObject var vm: PortfolioViewModel
+    @EnvironmentObject var watchlistVM: WatchlistViewModel
 
     var body: some View {
         Group {
@@ -18,7 +19,7 @@ struct PortfolioView: View {
         .navigationTitle("SoFi Portfolio")
     }
 
-    // MARK: - Holdings table
+    // MARK: - Holdings view
 
     @ViewBuilder
     private var holdingsView: some View {
@@ -26,7 +27,7 @@ struct PortfolioView: View {
             summaryBar
             Divider()
             if vm.isLoading {
-                ProgressView("Refreshing portfolio…")
+                ProgressView("Loading portfolio from Plaid…")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let error = vm.error {
                 errorState(error)
@@ -38,10 +39,25 @@ struct PortfolioView: View {
         }
     }
 
+    // MARK: - Summary bar
+
     private var summaryBar: some View {
-        HStack(spacing: 28) {
-            StatLabel(title: "Total Value",
-                      value: vm.totalValue.formatted(.currency(code: "USD")))
+        HStack(spacing: 24) {
+            // Total value (live-adjusted when Finnhub prices are available)
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 4) {
+                    Text("Total Value")
+                        .font(.caption).foregroundStyle(.secondary)
+                    if vm.hasLivePrices {
+                        liveBadge
+                    } else if vm.isFetchingLivePrices {
+                        ProgressView().scaleEffect(0.5).frame(width: 14, height: 14)
+                    }
+                }
+                Text(vm.totalValue, format: .currency(code: "USD"))
+                    .font(.headline.monospacedDigit())
+            }
+
             if let gl = vm.totalGainLoss, let glp = vm.totalGainLossPercent {
                 StatLabel(
                     title: "Total Gain/Loss",
@@ -49,7 +65,21 @@ struct PortfolioView: View {
                     color: gl >= 0 ? .green : .red
                 )
             }
+
             Spacer()
+
+            // Refresh prices only (quick)
+            if vm.hasLivePrices {
+                Button {
+                    vm.fetchLivePrices()
+                } label: {
+                    Label("Refresh Prices", systemImage: "chart.line.uptrend.xyaxis")
+                }
+                .disabled(vm.isFetchingLivePrices)
+                .help("Re-fetch live prices from Finnhub")
+            }
+
+            // Full refresh (Plaid + prices)
             Button {
                 vm.fetchHoldings()
             } label: {
@@ -68,12 +98,31 @@ struct PortfolioView: View {
         .background(.regularMaterial)
     }
 
+    private var liveBadge: some View {
+        Text("LIVE")
+            .font(.system(size: 8, weight: .bold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 1)
+            .background(Color.green, in: Capsule())
+    }
+
+    // MARK: - Holdings table
+
     private var holdingsTable: some View {
         Table(vm.holdings) {
+            // Symbol — shows watchlist indicator
             TableColumn("Symbol") { h in
-                Text(h.symbol).font(.headline)
+                HStack(spacing: 4) {
+                    Text(h.symbol).font(.headline)
+                    if watchlistVM.tickers.contains(where: { $0.symbol == h.symbol }) {
+                        Image(systemName: "eye.fill")
+                            .font(.system(size: 8))
+                            .foregroundStyle(.blue)
+                    }
+                }
             }
-            .width(min: 60, ideal: 80)
+            .width(min: 70, ideal: 90)
 
             TableColumn("Name") { h in
                 Text(h.name).foregroundStyle(.secondary)
@@ -85,14 +134,22 @@ struct PortfolioView: View {
             }
             .width(min: 60, ideal: 90)
 
+            // Price: live (Finnhub) when available, otherwise Plaid institutional
             TableColumn("Price") { h in
-                Text(h.institutionPrice, format: .currency(code: "USD"))
-                    .monospacedDigit()
+                let isLive = vm.livePrices[h.symbol] != nil
+                HStack(spacing: 3) {
+                    Text(vm.effectivePrice(for: h), format: .currency(code: "USD"))
+                        .monospacedDigit()
+                    if isLive {
+                        Circle().fill(Color.green).frame(width: 5, height: 5)
+                    }
+                }
             }
-            .width(min: 70, ideal: 90)
+            .width(min: 80, ideal: 100)
 
-            TableColumn("Market Value") { h in
-                Text(h.institutionValue, format: .currency(code: "USD"))
+            // Market value: live price × shares
+            TableColumn("Mkt Value") { h in
+                Text(vm.effectiveValue(for: h), format: .currency(code: "USD"))
                     .monospacedDigit()
             }
             .width(min: 90, ideal: 105)
@@ -106,8 +163,10 @@ struct PortfolioView: View {
             }
             .width(min: 90, ideal: 105)
 
+            // Gain/Loss: computed from live price when available
             TableColumn("Gain / Loss") { h in
-                if let gl = h.gainLoss, let glp = h.gainLossPercent {
+                if let gl = vm.effectiveGainLoss(for: h),
+                   let glp = vm.effectiveGainLossPercent(for: h) {
                     VStack(alignment: .trailing, spacing: 1) {
                         Text(gl, format: .currency(code: "USD"))
                             .monospacedDigit()
@@ -122,7 +181,47 @@ struct PortfolioView: View {
             }
             .width(min: 90, ideal: 110)
         }
+        // Right-click context menu: add/remove from watchlist, view chart
+        .contextMenu(forSelectionType: PortfolioHolding.ID.self) { ids in
+            if let h = vm.holdings.first(where: { ids.contains($0.id) }),
+               h.symbol != "N/A" {
+                let onWatchlist = watchlistVM.tickers.contains { $0.symbol == h.symbol }
+                if onWatchlist {
+                    Button {
+                        watchlistVM.removeTicker(symbol: h.symbol)
+                    } label: {
+                        Label("Remove \(h.symbol) from Watchlist", systemImage: "eye.slash")
+                    }
+                } else {
+                    Button {
+                        watchlistVM.addTicker(symbol: h.symbol, name: h.name)
+                    } label: {
+                        Label("Add \(h.symbol) to Watchlist", systemImage: "eye")
+                    }
+                }
+
+                Divider()
+
+                Button {
+                    // Ensure it's on the watchlist so the chart is accessible
+                    if !onWatchlist {
+                        watchlistVM.addTicker(symbol: h.symbol, name: h.name)
+                    }
+                } label: {
+                    Label("View Chart for \(h.symbol)", systemImage: "chart.xyaxis.line")
+                }
+            }
+        } primaryAction: { ids in
+            // Double-click: add to watchlist if not already there
+            if let h = vm.holdings.first(where: { ids.contains($0.id) }),
+               h.symbol != "N/A",
+               !watchlistVM.tickers.contains(where: { $0.symbol == h.symbol }) {
+                watchlistVM.addTicker(symbol: h.symbol, name: h.name)
+            }
+        }
     }
+
+    // MARK: - States
 
     private func errorState(_ msg: String) -> some View {
         VStack(spacing: 12) {
@@ -139,7 +238,7 @@ struct PortfolioView: View {
         VStack(spacing: 12) {
             Image(systemName: "tray").font(.largeTitle).foregroundStyle(.secondary)
             Text("No holdings found").foregroundStyle(.secondary)
-            Text("Try refreshing — it may take a moment for Plaid to load your data.")
+            Text("Try refreshing — Plaid may take a moment to sync your SoFi data.")
                 .font(.caption).foregroundStyle(.tertiary).multilineTextAlignment(.center)
             Button("Refresh") { vm.fetchHoldings() }.buttonStyle(.bordered)
         }
