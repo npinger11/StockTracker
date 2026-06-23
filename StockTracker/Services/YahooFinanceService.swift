@@ -3,15 +3,21 @@ import Foundation
 struct YahooFinanceService {
 
     enum Range: String, CaseIterable, Identifiable {
+        case oneHour     = "1h"   // not a native Yahoo range — fetched as 1d/1m then trimmed
+        case oneDay      = "1d"
         case oneMonth    = "1mo"
         case threeMonths = "3mo"
         case sixMonths   = "6mo"
         case oneYear     = "1y"
         case twoYears    = "2y"
         case fiveYears   = "5y"
+
         var id: String { rawValue }
+
         var label: String {
             switch self {
+            case .oneHour:     return "1H"
+            case .oneDay:      return "1D"
             case .oneMonth:    return "1M"
             case .threeMonths: return "3M"
             case .sixMonths:   return "6M"
@@ -20,23 +26,43 @@ struct YahooFinanceService {
             case .fiveYears:   return "5Y"
             }
         }
+
+        /// The `range` param sent to Yahoo Finance.
+        /// 1H has no native Yahoo equivalent — use the full day and trim afterward.
+        var yahooRangeParam: String {
+            self == .oneHour ? "1d" : rawValue
+        }
+
+        /// Bar interval that makes sense for this range.
+        var defaultInterval: Interval {
+            switch self {
+            case .oneHour: return .oneMinute     // 1-min bars → trim to 60
+            case .oneDay:  return .fiveMinutes   // 5-min bars across a full session
+            default:       return .oneDay        // daily bars for weekly/monthly+
+            }
+        }
+
+        /// True for 1H and 1D — drives time-formatted X-axis labels.
+        var isIntraday: Bool { self == .oneHour || self == .oneDay }
     }
 
     enum Interval: String {
+        case oneMinute     = "1m"
         case fiveMinutes   = "5m"
         case thirtyMinutes = "30m"
         case oneDay        = "1d"
         case oneWeek       = "1wk"
     }
 
-    /// Fetch OHLCV bars for a symbol.
+    /// Fetch OHLCV bars for a symbol. The interval is chosen automatically
+    /// based on the range (intraday for 1H/1D, daily for everything else).
     static func fetchBars(
         symbol: String,
-        range: Range = .sixMonths,
-        interval: Interval = .oneDay
+        range: Range = .sixMonths
     ) async throws -> [PriceBar] {
+        let interval = range.defaultInterval
         let urlString = "https://query1.finance.yahoo.com/v8/finance/chart/\(symbol)"
-            + "?range=\(range.rawValue)&interval=\(interval.rawValue)&includePrePost=false"
+            + "?range=\(range.yahooRangeParam)&interval=\(interval.rawValue)&includePrePost=false"
 
         guard let url = URL(string: urlString) else { throw ParseError.invalidURL }
 
@@ -51,7 +77,9 @@ struct YahooFinanceService {
         guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
             throw ParseError.httpError
         }
-        return try parse(data: data)
+        let bars = try parse(data: data)
+        // 1H fetches a full day of 1-min bars — keep only the last 60 (one hour)
+        return range == .oneHour ? Array(bars.suffix(60)) : bars
     }
 
     // MARK: - JSON parsing

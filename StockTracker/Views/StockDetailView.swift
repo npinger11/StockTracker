@@ -123,8 +123,14 @@ struct StockDetailView: View {
             AxisMarks(values: .automatic(desiredCount: 6)) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
                     .foregroundStyle(.quaternary)
-                AxisValueLabel(format: .dateTime.month(.abbreviated).year(.twoDigits))
-                    .font(.caption)
+                // Intraday ranges (1H, 1D) label by time; others by month/year
+                if vm.selectedRange.isIntraday {
+                    AxisValueLabel(format: .dateTime.hour().minute())
+                        .font(.caption)
+                } else {
+                    AxisValueLabel(format: .dateTime.month(.abbreviated).year(.twoDigits))
+                        .font(.caption)
+                }
             }
         }
         .chartYAxis {

@@ -56,8 +56,7 @@ final class ChartViewModel: ObservableObject {
             do {
                 bars = try await YahooFinanceService.fetchBars(
                     symbol: symbol,
-                    range: selectedRange,
-                    interval: .oneDay
+                    range: selectedRange
                 )
             } catch {
                 self.error = error.localizedDescription
