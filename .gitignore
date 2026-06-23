@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode build artifacts
+build/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+*.moved-aside
+
+# Swift Package Manager
+.build/
+*.resolved
+
+# Archives & distribution
+dist/
+*.dmg
+*.zip
+
+# Secrets / credentials — never commit these
+*.env
+secrets.json
+
+# Editor
+.vscode/
+*.swp
+*.swo

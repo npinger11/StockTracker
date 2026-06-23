@@ -1,0 +1,366 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4468486D9BE0CA31614CEA4C /* StockTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4717FB50A7CA3634368B8C94 /* StockTrackerApp.swift */; };
+		E5C21DE39606B1040D583961 /* StockTicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D2FA1730331DFB89726A5D /* StockTicker.swift */; };
+		42A29CAAF4F5D02F4B5D84B5 /* PriceBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9AD9AB83858DEF4E0A9624 /* PriceBar.swift */; };
+		6AF9F62E0D43161051525A0E /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCE98E3F6F2FDC4333FCA46 /* Quote.swift */; };
+		5F650A9805FE84F9D9C12E7B /* PortfolioHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA9D728EB11D9A7FCB0AF37 /* PortfolioHolding.swift */; };
+		3A28276A44B7D80264D2A073 /* FinnhubService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC7C054E00A7FF61ECFAB74 /* FinnhubService.swift */; };
+		778CCB174958E91FAD637713 /* YahooFinanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97382CA3AEC5572CDA8EE464 /* YahooFinanceService.swift */; };
+		E5643806934D76BAAFD06607 /* PlaidService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E5447E42E4A5A859C750D2 /* PlaidService.swift */; };
+		90B42B214BAC1FCCB5B8D131 /* WatchlistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBB0A99D9E7946CF3394F8E /* WatchlistViewModel.swift */; };
+		25744CB1F6265C01D064DBC3 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C3C019038419AD60D7B67A /* ChartViewModel.swift */; };
+		F0DD4C58ED64BB91881A1E22 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B641A6AF096257D958BE611 /* PortfolioViewModel.swift */; };
+		171FF4FF9270BD42AD2700E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19569A84C038CE307CDC6998 /* ContentView.swift */; };
+		4F34F113CD66DD2F38AA1884 /* WatchlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B33AC12522B1538CF5547A62 /* WatchlistView.swift */; };
+		DDEE9262404B5E98B8B4CE9C /* StockDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23072B71AE094AB62074D206 /* StockDetailView.swift */; };
+		D77FD4957084C14AC93B6792 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E65E02B727570ACB915FD28 /* PortfolioView.swift */; };
+		CB19124419F6D00D5FCA94FE /* AddTickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E48E203F51D46084E448D4 /* AddTickerView.swift */; };
+		15439CF146FBFEBD891EE465 /* PlaidLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3009FA863B461F1ABD0BF2F8 /* PlaidLinkView.swift */; };
+		6825B960F160BC8B52CBEE83 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F200E47693B130AAAACEA49 /* SettingsView.swift */; };
+		907D20229D4AEFCC77C02167 /* MovingAverageCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787C065B5089CBD98BF05502 /* MovingAverageCalculator.swift */; };
+		9BA0B699C80CCB4033D0D261 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C806859103AF540E4D724EE3 /* KeychainHelper.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E6F51B41C1CE2E531112BFA9 /* StockTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4717FB50A7CA3634368B8C94 /* StockTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTrackerApp.swift; sourceTree = "<group>"; };
+		75D2FA1730331DFB89726A5D /* StockTicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockTicker.swift; sourceTree = "<group>"; };
+		BC9AD9AB83858DEF4E0A9624 /* PriceBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceBar.swift; sourceTree = "<group>"; };
+		1DCE98E3F6F2FDC4333FCA46 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
+		CFA9D728EB11D9A7FCB0AF37 /* PortfolioHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHolding.swift; sourceTree = "<group>"; };
+		2BC7C054E00A7FF61ECFAB74 /* FinnhubService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinnhubService.swift; sourceTree = "<group>"; };
+		97382CA3AEC5572CDA8EE464 /* YahooFinanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YahooFinanceService.swift; sourceTree = "<group>"; };
+		11E5447E42E4A5A859C750D2 /* PlaidService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaidService.swift; sourceTree = "<group>"; };
+		8DBB0A99D9E7946CF3394F8E /* WatchlistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistViewModel.swift; sourceTree = "<group>"; };
+		B0C3C019038419AD60D7B67A /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
+		8B641A6AF096257D958BE611 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
+		19569A84C038CE307CDC6998 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B33AC12522B1538CF5547A62 /* WatchlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistView.swift; sourceTree = "<group>"; };
+		23072B71AE094AB62074D206 /* StockDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailView.swift; sourceTree = "<group>"; };
+		7E65E02B727570ACB915FD28 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
+		B6E48E203F51D46084E448D4 /* AddTickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTickerView.swift; sourceTree = "<group>"; };
+		3009FA863B461F1ABD0BF2F8 /* PlaidLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaidLinkView.swift; sourceTree = "<group>"; };
+		0F200E47693B130AAAACEA49 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		787C065B5089CBD98BF05502 /* MovingAverageCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingAverageCalculator.swift; sourceTree = "<group>"; };
+		C806859103AF540E4D724EE3 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		7DC947F6DFB2481A1F8AF5FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2EE5141556C7852B30E87123 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EC6AE75C017423A0C5A951A8 = {
+			isa = PBXGroup;
+			children = (
+				1F7D8956938AE151FEE2BF29 /* StockTracker */,
+				942A9A1A63793D61082FFAA8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		942A9A1A63793D61082FFAA8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E6F51B41C1CE2E531112BFA9 /* StockTracker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1F7D8956938AE151FEE2BF29 /* StockTracker */ = {
+			isa = PBXGroup;
+			children = (
+				4717FB50A7CA3634368B8C94 /* StockTrackerApp.swift */,
+				AAC7DC5DCD23638D271D3093 /* Models */,
+				6DDB9E946472D11E74FF7E59 /* Services */,
+				98C43F97E476C4B1791CD79A /* ViewModels */,
+				B3FF000EAD123ECB4835E3AE /* Views */,
+				573B5E6666CA4976AB618246 /* Utilities */,
+				408FBE2D98A644B78B0C156A /* Resources */,
+			);
+			path = StockTracker;
+			sourceTree = "<group>";
+		};
+		AAC7DC5DCD23638D271D3093 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				75D2FA1730331DFB89726A5D /* StockTicker.swift */,
+				BC9AD9AB83858DEF4E0A9624 /* PriceBar.swift */,
+				1DCE98E3F6F2FDC4333FCA46 /* Quote.swift */,
+				CFA9D728EB11D9A7FCB0AF37 /* PortfolioHolding.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6DDB9E946472D11E74FF7E59 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2BC7C054E00A7FF61ECFAB74 /* FinnhubService.swift */,
+				97382CA3AEC5572CDA8EE464 /* YahooFinanceService.swift */,
+				11E5447E42E4A5A859C750D2 /* PlaidService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		98C43F97E476C4B1791CD79A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8DBB0A99D9E7946CF3394F8E /* WatchlistViewModel.swift */,
+				B0C3C019038419AD60D7B67A /* ChartViewModel.swift */,
+				8B641A6AF096257D958BE611 /* PortfolioViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B3FF000EAD123ECB4835E3AE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				19569A84C038CE307CDC6998 /* ContentView.swift */,
+				B33AC12522B1538CF5547A62 /* WatchlistView.swift */,
+				23072B71AE094AB62074D206 /* StockDetailView.swift */,
+				7E65E02B727570ACB915FD28 /* PortfolioView.swift */,
+				B6E48E203F51D46084E448D4 /* AddTickerView.swift */,
+				3009FA863B461F1ABD0BF2F8 /* PlaidLinkView.swift */,
+				0F200E47693B130AAAACEA49 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		573B5E6666CA4976AB618246 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				787C065B5089CBD98BF05502 /* MovingAverageCalculator.swift */,
+				C806859103AF540E4D724EE3 /* KeychainHelper.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		408FBE2D98A644B78B0C156A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7DC947F6DFB2481A1F8AF5FF /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2519FE16F16FB03ABAD2DA8F /* StockTracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 249E4D84703C93450927DBB4 /* Build configuration list for PBXNativeTarget "StockTracker" */;
+			buildPhases = (
+				2466343B6FD6A9A6B3BC8BEC /* Sources */,
+				2EE5141556C7852B30E87123 /* Frameworks */,
+				B17084E4EC1E2C66BB4538F1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StockTracker;
+			productName = StockTracker;
+			productReference = E6F51B41C1CE2E531112BFA9 /* StockTracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		78D3501BEE03D86094D9089D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					2519FE16F16FB03ABAD2DA8F = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = E218C3791B52AB5D30EEDBEF /* Build configuration list for PBXProject "StockTracker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EC6AE75C017423A0C5A951A8;
+			productRefGroup = 942A9A1A63793D61082FFAA8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2519FE16F16FB03ABAD2DA8F /* StockTracker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B17084E4EC1E2C66BB4538F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2466343B6FD6A9A6B3BC8BEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4468486D9BE0CA31614CEA4C /* StockTrackerApp.swift in Sources */,
+				E5C21DE39606B1040D583961 /* StockTicker.swift in Sources */,
+				42A29CAAF4F5D02F4B5D84B5 /* PriceBar.swift in Sources */,
+				6AF9F62E0D43161051525A0E /* Quote.swift in Sources */,
+				5F650A9805FE84F9D9C12E7B /* PortfolioHolding.swift in Sources */,
+				3A28276A44B7D80264D2A073 /* FinnhubService.swift in Sources */,
+				778CCB174958E91FAD637713 /* YahooFinanceService.swift in Sources */,
+				E5643806934D76BAAFD06607 /* PlaidService.swift in Sources */,
+				90B42B214BAC1FCCB5B8D131 /* WatchlistViewModel.swift in Sources */,
+				25744CB1F6265C01D064DBC3 /* ChartViewModel.swift in Sources */,
+				F0DD4C58ED64BB91881A1E22 /* PortfolioViewModel.swift in Sources */,
+				171FF4FF9270BD42AD2700E3 /* ContentView.swift in Sources */,
+				4F34F113CD66DD2F38AA1884 /* WatchlistView.swift in Sources */,
+				DDEE9262404B5E98B8B4CE9C /* StockDetailView.swift in Sources */,
+				D77FD4957084C14AC93B6792 /* PortfolioView.swift in Sources */,
+				CB19124419F6D00D5FCA94FE /* AddTickerView.swift in Sources */,
+				15439CF146FBFEBD891EE465 /* PlaidLinkView.swift in Sources */,
+				6825B960F160BC8B52CBEE83 /* SettingsView.swift in Sources */,
+				907D20229D4AEFCC77C02167 /* MovingAverageCalculator.swift in Sources */,
+				9BA0B699C80CCB4033D0D261 /* KeychainHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C7FDDEF61E865370DDD1D0EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)",);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+			};
+			name = Debug;
+		};
+		9F64FFE0E383BF4ECB61F570 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("$(inherited)",);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		32C49499D952F50238BDEF38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = StockTracker/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stocktracker.app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = -Onone;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FAAF6FD938A20E5908B8FFD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf-with-dsym;
+				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_TESTABILITY = NO;
+				INFOPLIST_FILE = StockTracker/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stocktracker.app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = -O;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E218C3791B52AB5D30EEDBEF /* Build configuration list for PBXProject "StockTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7FDDEF61E865370DDD1D0EA /* Debug */,
+				9F64FFE0E383BF4ECB61F570 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		249E4D84703C93450927DBB4 /* Build configuration list for PBXNativeTarget "StockTracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32C49499D952F50238BDEF38 /* Debug */,
+				FAAF6FD938A20E5908B8FFD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 78D3501BEE03D86094D9089D /* Project object */;
+}
