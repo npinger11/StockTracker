@@ -80,50 +80,24 @@ struct StockDetailView: View {
 
     private var priceChart: some View {
         Chart {
-            // Close-price line
+            // Price line only — single series so .foregroundStyle works correctly.
+            // MA lines are drawn via chartOverlay+Canvas below, completely bypassing
+            // Swift Charts' internal series→color cache which prevented color updates.
             ForEach(vm.bars) { bar in
                 LineMark(
                     x: .value("Date", bar.timestamp),
                     y: .value("Close", bar.close)
                 )
+                .foregroundStyle(Color.blue)
                 .lineStyle(StrokeStyle(lineWidth: 1.5))
                 .interpolationMethod(.linear)
             }
-
-            // MA 1 — fixed series label so chartForegroundStyleScale can key on it
-            ForEach(vm.ma1Series, id: \.date) { pt in
-                LineMark(
-                    x: .value("Date", pt.date),
-                    y: .value("MA 1", pt.value)
-                )
-                .lineStyle(StrokeStyle(lineWidth: vm.ma1LineWidth, dash: [5, 3]))
-                .interpolationMethod(.linear)
-            }
-
-            // MA 2 — fixed series label so chartForegroundStyleScale can key on it
-            ForEach(vm.ma2Series, id: \.date) { pt in
-                LineMark(
-                    x: .value("Date", pt.date),
-                    y: .value("MA 2", pt.value)
-                )
-                .lineStyle(StrokeStyle(lineWidth: vm.ma2LineWidth, dash: [5, 3]))
-                .interpolationMethod(.linear)
-            }
         }
-        // chartForegroundStyleScale is the correct API for series-level color control.
-        // Per-mark .foregroundStyle() is ignored by Swift Charts when multiple series
-        // share the same Chart — the chart caches its series→color map by label string.
-        .chartForegroundStyleScale(
-            domain: ["Close", "MA 1", "MA 2"],
-            range:  [Color.blue, vm.ma1Color, vm.ma2Color]
-        )
-        .chartLegend(.hidden)
         .chartYScale(domain: vm.priceRange)
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 6)) { value in
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
                     .foregroundStyle(.quaternary)
-                // Intraday ranges (1H, 1D) label by time; others by month/year
                 if vm.selectedRange.isIntraday {
                     AxisValueLabel(format: .dateTime.hour().minute())
                         .font(.caption)
@@ -145,6 +119,49 @@ struct StockDetailView: View {
                 }
             }
         }
+        // Canvas overlay draws MA lines outside Swift Charts' rendering pipeline.
+        // The draw closure captures vm.ma1Color / vm.ma2Color from the outer scope
+        // and runs fresh on every SwiftUI render — no caching, instant color updates.
+        .chartOverlay { proxy in
+            GeometryReader { geo in
+                let origin = geo[proxy.plotAreaFrame].origin
+                Canvas { ctx, _ in
+                    if vm.ma1Enabled {
+                        ctx.stroke(
+                            buildMAPath(series: vm.ma1Series, proxy: proxy, origin: origin),
+                            with: .color(vm.ma1Color),
+                            style: StrokeStyle(lineWidth: vm.ma1LineWidth, dash: [5, 3])
+                        )
+                    }
+                    if vm.ma2Enabled {
+                        ctx.stroke(
+                            buildMAPath(series: vm.ma2Series, proxy: proxy, origin: origin),
+                            with: .color(vm.ma2Color),
+                            style: StrokeStyle(lineWidth: vm.ma2LineWidth, dash: [5, 3])
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    /// Converts MA (date, value) pairs to a Path in the chart's screen coordinate space.
+    /// `origin` is the plot area's top-left corner within the chartOverlay's coordinate system.
+    private func buildMAPath(
+        series: [(date: Date, value: Double)],
+        proxy: ChartProxy,
+        origin: CGPoint
+    ) -> Path {
+        var path = Path()
+        for (i, pt) in series.enumerated() {
+            guard
+                let x = proxy.position(forX: pt.date),
+                let y = proxy.position(forY: pt.value)
+            else { continue }
+            let point = CGPoint(x: origin.x + x, y: origin.y + y)
+            i == 0 ? path.move(to: point) : path.addLine(to: point)
+        }
+        return path
     }
 
     // MARK: - MA Controls
