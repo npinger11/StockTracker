@@ -80,39 +80,44 @@ struct StockDetailView: View {
 
     private var priceChart: some View {
         Chart {
-            // Close-price line (blue)
+            // Close-price line
             ForEach(vm.bars) { bar in
                 LineMark(
                     x: .value("Date", bar.timestamp),
                     y: .value("Close", bar.close)
                 )
-                .foregroundStyle(Color.blue)
                 .lineStyle(StrokeStyle(lineWidth: 1.5))
                 .interpolationMethod(.linear)
             }
 
-            // MA 1 (user-chosen color, dashed)
+            // MA 1 — fixed series label so chartForegroundStyleScale can key on it
             ForEach(vm.ma1Series, id: \.date) { pt in
                 LineMark(
                     x: .value("Date", pt.date),
-                    y: .value("\(vm.ma1Type.rawValue)(\(vm.ma1Period))", pt.value)
+                    y: .value("MA 1", pt.value)
                 )
-                .foregroundStyle(vm.ma1Color)
                 .lineStyle(StrokeStyle(lineWidth: vm.ma1LineWidth, dash: [5, 3]))
                 .interpolationMethod(.linear)
             }
 
-            // MA 2 (user-chosen color, dashed)
+            // MA 2 — fixed series label so chartForegroundStyleScale can key on it
             ForEach(vm.ma2Series, id: \.date) { pt in
                 LineMark(
                     x: .value("Date", pt.date),
-                    y: .value("\(vm.ma2Type.rawValue)(\(vm.ma2Period))", pt.value)
+                    y: .value("MA 2", pt.value)
                 )
-                .foregroundStyle(vm.ma2Color)
                 .lineStyle(StrokeStyle(lineWidth: vm.ma2LineWidth, dash: [5, 3]))
                 .interpolationMethod(.linear)
             }
         }
+        // chartForegroundStyleScale is the correct API for series-level color control.
+        // Per-mark .foregroundStyle() is ignored by Swift Charts when multiple series
+        // share the same Chart — the chart caches its series→color map by label string.
+        .chartForegroundStyleScale(
+            domain: ["Close", "MA 1", "MA 2"],
+            range:  [Color.blue, vm.ma1Color, vm.ma2Color]
+        )
+        .chartLegend(.hidden)
         .chartYScale(domain: vm.priceRange)
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 6)) { value in
